@@ -1,0 +1,92 @@
+import random
+def print_board(board):
+	print(board[0], "|", board[1], "|", board[2])
+	print(" -------")
+	print(board[3], "|", board[4], "|", board[5])
+	print(" -------")
+	print(board[6], "|", board[7], "|", board[8])
+
+
+def check_win(board, move):
+	player = "O"
+	if move % 2 == 1:
+		player = "X"
+	for i in range(3):
+		if board[i] == board[i + 3] == board[i + 6] == player:
+			return True
+	for i in range(0, 7, 3):
+		if board[i] == board[i + 1] == board[i + 2] == player:
+			return True
+	if board[0] == board[4] == board[8] == player or board[2] == board[
+	    4] == board[6] == player:
+		return True
+	return False
+
+
+# check if square already full
+def square_available(board, num):
+	if board[num - 1] == " ":
+		return True
+	else:
+		return False
+
+
+def get_num(board):
+	while True:
+		try:
+			num = int(input("Enter a number between 1 and 9: "))
+			if num < 10 and num > 0:
+				if square_available(board, num) == False:
+					print("Square already filled in ")
+					continue
+				return num
+		except ValueError:
+			print("must be integer 1-9")
+			continue
+		if square_available(board, num) == False:
+			print("Square already filled in ")
+			continue
+
+
+def computer_move(board, move):
+	comp_move = randint(0,8)
+  return comp_move
+
+
+def get_mode():
+	while True:
+		mode = input("Type 'l' to play locally or 'c' to play computer")
+		if mode != 'l' or mode != 'c':
+			continue
+		return mode
+
+
+def start_game():
+	mode = get_mode()
+	board = [" " for i in range(9)]
+	for i in range(9):
+		move = i
+		print("move: ", move)
+		print_board(board)
+		if check_win(board, move):
+			if move % 2 == 1:
+				print("Winner is X")
+			else:
+				print("Winner is O")
+			return
+		if mode == 'c':
+			comp_move = computer_move(board)
+			if move % 2 == 0:
+				board[comp_move] = "X"
+			else:
+				board[comp_move] = "O"
+		num = get_num(board)
+		if move % 2 == 0:
+			board[num - 1] = "X"
+		else:
+			board[num - 1] = "O"
+	print_board(board)
+	print("Game is a tie")
+
+
+start_game()
